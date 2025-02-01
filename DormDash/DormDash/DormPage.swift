@@ -9,101 +9,103 @@ import SwiftUI
 
 import SwiftUI
 
-struct ApartmentSelectorView: View {
-    @State private var showApartmentPicker = false
-    @State private var showRoomPicker = false
-    @State private var selectedApartment: String?
-    @State private var selectedRoom: Int?
+struct DormInputView: View {
+    @State private var dormName: String = ""
+    @State private var roomNumber: String = ""
+    
+    @State private var showDormNamePrompt = false
+    @State private var showRoomNumberPrompt = false
     @State private var showConfirmationAlert = false
-    
-    let apartments = ["Hoge Hall", "Paz Hall", "Was Hall"]
-    let roomNumbers = [1, 2, 3, 4, 5]
-    
+
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
+            // Button to input Dorm Name
             Button(action: {
-                showApartmentPicker.toggle()
+                showDormNamePrompt.toggle()
             }) {
-                Text("Select Apartment & Room")
+                Text("Enter Dorm Name")
                     .foregroundColor(.white)
                     .padding()
                     .frame(width: 250)
                     .background(Color.blue)
                     .cornerRadius(10)
             }
-            .sheet(isPresented: $showApartmentPicker) {
-                ApartmentPickerView(apartments: apartments) { apartment in
-                    selectedApartment = apartment
-                    showRoomPicker = true
-                }
+            .sheet(isPresented: $showDormNamePrompt) {
+                InputPromptView(title: "Dorm Name", placeholder: "Enter your VT dorm name", inputText: $dormName)
             }
-            .sheet(isPresented: $showRoomPicker) {
-                if let apartment = selectedApartment {
-                    RoomPickerView(roomNumbers: roomNumbers, apartment: apartment) { room in
-                        selectedRoom = room
-                        showConfirmationAlert = true
-                    }
-                }
+            
+            // Button to input Room Number
+            Button(action: {
+                showRoomNumberPrompt.toggle()
+            }) {
+                Text("Enter Room Number")
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(width: 250)
+                    .background(Color.green)
+                    .cornerRadius(10)
             }
-            .alert(isPresented: $showConfirmationAlert) {
-                Alert(title: Text("Selection Confirmed"),
-                      message: Text("You selected \(selectedApartment ?? "") Room \(selectedRoom ?? 0)."),
-                      dismissButton: .default(Text("OK")))
+            .sheet(isPresented: $showRoomNumberPrompt) {
+                InputPromptView(title: "Room Number", placeholder: "Enter your room number", inputText: $roomNumber)
+            }
+            
+            // Confirmation Button to show entered data
+            if !dormName.isEmpty && !roomNumber.isEmpty {
+                Button(action: {
+                    showConfirmationAlert.toggle()
+                }) {
+                    Text("Confirm Details")
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(width: 250)
+                        .background(Color.purple)
+                        .cornerRadius(10)
+                }
+                .alert(isPresented: $showConfirmationAlert) {
+                    Alert(title: Text("Dorm Info"),
+                          message: Text("You live in \(dormName), Room \(roomNumber)."),
+                          dismissButton: .default(Text("OK")))
+                }
             }
         }
         .padding()
     }
 }
 
-struct ApartmentPickerView: View {
-    let apartments: [String]
-    var onApartmentSelected: (String) -> Void
+struct InputPromptView: View {
+    let title: String
+    let placeholder: String
+    @Binding var inputText: String
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         NavigationView {
-            List(apartments, id: \.self) { apartment in
-                Button(action: {
-                    onApartmentSelected(apartment)
+            VStack(spacing: 20) {
+                TextField(placeholder, text: $inputText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                
+                Button("Save") {
                     presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text(apartment)
                 }
+                .padding()
+                .foregroundColor(.white)
+                .background(Color.blue)
+                .cornerRadius(10)
+                
+                Spacer()
             }
-            .navigationTitle("Select Apartment")
+            .navigationTitle(title)
             .navigationBarItems(trailing: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             })
+            .padding()
         }
     }
 }
 
-struct RoomPickerView: View {
-    let roomNumbers: [Int]
-    let apartment: String
-    var onRoomSelected: (Int) -> Void
-    @Environment(\.presentationMode) var presentationMode
-    
-    var body: some View {
-        NavigationView {
-            List(roomNumbers, id: \.self) { room in
-                Button(action: {
-                    onRoomSelected(room)
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text("Room \(room)")
-                }
-            }
-            .navigationTitle("Select Room in \(apartment)")
-            .navigationBarItems(trailing: Button("Cancel") {
-                presentationMode.wrappedValue.dismiss()
-            })
-        }
-    }
-}
-
-struct ApartmentSelectorView_Previews: PreviewProvider {
+struct DormInputView_Previews: PreviewProvider {
     static var previews: some View {
-        ApartmentSelectorView()
+        DormInputView()
     }
 }
