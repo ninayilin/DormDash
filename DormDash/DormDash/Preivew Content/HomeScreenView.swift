@@ -8,29 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var email: String = "" // Stores the email input
-    @State private var password: String = "" // Stores the password input
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var isLoggedIn = false // Tracks login status
 
     var body: some View {
-        ZStack {
-            // Background Image
-            Image("background1")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
+        NavigationView {
+            ZStack {
+                // Background Image
+                Image("background1")
+                    .resizable()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .ignoresSafeArea()
 
-            VStack {
-                Spacer() // Pushes content to the bottom
-
-                VStack(spacing: 20) { // Adds spacing between elements
-
+                VStack(spacing: 10) {
                     // Email Input Field
                     TextField("Enter your email", text: $email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle()) // Adds a border
-                        .keyboardType(.emailAddress) // Email-friendly keyboard
-                        .autocapitalization(.none) // Prevents auto-capitalization
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.emailAddress)
+                        .autocapitalization(.none)
                         .padding()
-                        .background(Color.white.opacity(0.8)) // Light background for visibility
+                        .background(Color.white.opacity(0.2))
                         .cornerRadius(10)
                         .padding(.horizontal, 40)
 
@@ -38,13 +36,14 @@ struct ContentView: View {
                     SecureField("Enter your password", text: $password)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
-                        .background(Color.white.opacity(0.8))
+                        .background(Color.white.opacity(0.2))
                         .cornerRadius(10)
                         .padding(.horizontal, 40)
 
-                    // Login Button
+                    // Login Button (Triggers Navigation)
                     Button(action: {
                         print("Logging in with Email: \(email) and Password: \(password)")
+                        isLoggedIn = true // Trigger navigation
                     }) {
                         Text("Login")
                             .font(.headline)
@@ -55,8 +54,14 @@ struct ContentView: View {
                             .cornerRadius(10)
                             .padding(.horizontal, 40)
                     }
+                    .padding(.top, 150)
+                    .padding(.bottom, 50)
+
+                    // Hidden NavigationLink that activates when isLoggedIn = true
+                    NavigationLink(destination: DiningHallsView(), isActive: $isLoggedIn) {
+                        EmptyView()
+                    }
                 }
-                .padding(.bottom, 100) // Moves content slightly higher from the bottom edge
             }
         }
     }
@@ -65,5 +70,3 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-
-
