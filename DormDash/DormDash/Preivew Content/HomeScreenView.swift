@@ -8,27 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var email: String = ""
-    @State private var password: String = ""
-    @State private var isLoggedIn = false // Tracks login status
+    @State private var email: String = "" // Stores the email input
+    @State private var password: String = "" // Stores the password input
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                // Background Image
-                Image("background1")
-                    .resizable()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .ignoresSafeArea()
+        ZStack {
+            // Background Image
+            Image("background1")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
 
-                VStack(spacing: 10) {
+            VStack {
+                Spacer()
+
+                VStack(spacing: 20) { // Adds spacing between elements
+
                     // Email Input Field
                     TextField("Enter your email", text: $email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.emailAddress)
-                        .autocapitalization(.none)
+                        .textFieldStyle(RoundedBorderTextFieldStyle()) // Adds a border
+                        .keyboardType(.emailAddress) // Email-friendly keyboard
+                        .autocapitalization(.none) // Prevents auto-capitalization
                         .padding()
-                        .background(Color.white.opacity(0.2))
+                        .background(Color.white.opacity(0.8)) // Light background for visibility
                         .cornerRadius(10)
                         .padding(.horizontal, 40)
 
@@ -36,14 +38,13 @@ struct ContentView: View {
                     SecureField("Enter your password", text: $password)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
-                        .background(Color.white.opacity(0.2))
+                        .background(Color.white.opacity(0.8))
                         .cornerRadius(10)
                         .padding(.horizontal, 40)
 
-                    // Login Button (Triggers Navigation)
+                    // Login Button
                     Button(action: {
                         print("Logging in with Email: \(email) and Password: \(password)")
-                        isLoggedIn = true // Trigger navigation
                     }) {
                         Text("Login")
                             .font(.headline)
@@ -54,14 +55,22 @@ struct ContentView: View {
                             .cornerRadius(10)
                             .padding(.horizontal, 40)
                     }
-                    .padding(.top, 150)
-                    .padding(.bottom, 50)
 
-                    // Hidden NavigationLink that activates when isLoggedIn = true
-                    NavigationLink(destination: DiningHallsView(), isActive: $isLoggedIn) {
-                        EmptyView()
+                    // Done Button
+                    Button(action: {
+                        print("Done button pressed")
+                    }) {
+                        Text("Done")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .padding(.horizontal, 40)
                     }
                 }
+                .padding(.bottom, 100) // Moves content slightly higher from the bottom edge
             }
         }
     }

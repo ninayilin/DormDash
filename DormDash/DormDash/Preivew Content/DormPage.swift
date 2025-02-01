@@ -4,9 +4,7 @@
 //
 //  Created by Aryan Palit on 2/1/25.
 //
-
 import SwiftUI
-
 struct ZoneSelectorView: View {
     @State private var expandedZone: String? = nil
     @State private var selectedDorm: String = ""
@@ -19,7 +17,7 @@ struct ZoneSelectorView: View {
         "Upper Quad": ["Newman", "Johnston", "Miles", "Whitehurst", "Vawter"],
         "Lower Quad": ["Hoge", "Oshag", "Prichard", "Pedrew", "New Residence Hall", "Payne", "Campbell"],
         "West End": ["AJ", "Cochraine", "Harper", "New Hall West", "Slusher"],
-        "Eas Side": ["Eggleston", "CID", "GLC"],
+        "East Side": ["Eggleston", "CID", "GLC"],
         "Off Campus adjacent": ["Pearson", "Hillcrest"]
     ]
     
