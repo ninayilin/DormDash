@@ -1,10 +1,3 @@
-//
-//  ListofDiningHalls.swift
-//  DormDash
-//
-//  Created by Arihita Dirghangi on 2/1/25.
-//
-
 import SwiftUI
 
 struct DiningHallsView: View {
@@ -23,7 +16,7 @@ struct DiningHallsView: View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(diningHalls, id: \.self) { hall in
-                        NavigationLink(destination: DiningView(diningHall: hall)) {
+                        NavigationLink(destination: DiningView(diningHall: hall)) { // Correct destination
                             Text(hall)
                                 .frame(maxWidth: .infinity, minHeight: 80)
                                 .background(Color.orange.opacity(0.8))
