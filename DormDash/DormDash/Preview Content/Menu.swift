@@ -2,7 +2,7 @@
 //  Menu.swift
 //  DormDash
 //
-//  Created by Gautam Soni on 2/1/25.
+//  Created by Arihita Dirghangi on 2/1/25.
 //
 
 import SwiftUI
