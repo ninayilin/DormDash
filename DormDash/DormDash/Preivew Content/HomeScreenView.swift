@@ -1,10 +1,3 @@
-//
-//  HomeScreenView.swift
-//  DormDash
-//
-//  Created by Nina Yang on 2/1/25.
-//
-
 import SwiftUI
 
 struct ContentView: View {
@@ -70,3 +63,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+
