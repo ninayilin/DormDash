@@ -16,7 +16,7 @@ struct DiningHallsView: View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(diningHalls, id: \.self) { hall in
-                        NavigationLink(destination: DiningView(diningHall: hall)) { // Correct destination
+                        NavigationLink(destination: MenuView(diningHall: hall)) { // Pass diningHall to MenuView
                             Text(hall)
                                 .frame(maxWidth: .infinity, minHeight: 80)
                                 .background(Color.orange.opacity(0.8))
@@ -31,16 +31,6 @@ struct DiningHallsView: View {
             }
             .navigationTitle("Select Dining Hall")
         }
-    }
-}
-
-struct DiningView: View {
-    let diningHall: String
-
-    var body: some View {
-        Text("Menu for \(diningHall)")
-            .font(.largeTitle)
-            .padding()
     }
 }
 
