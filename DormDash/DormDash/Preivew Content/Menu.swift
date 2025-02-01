@@ -72,6 +72,8 @@ struct MenuView: View {
 // Cart View (Displays selected items)
 struct CartView: View {
     var cart: [String]
+    @Environment(\.presentationMode) var presentationMode
+    @State private var navigateToDormPage = false
     
     var body: some View {
         NavigationView {
@@ -85,8 +87,25 @@ struct CartView: View {
                     .font(.headline)
                     .padding()
 
+                Button("Order") {
+                                    
+                    navigateToDormPage = true
+                                }
+                .padding()
+                .background(Color.green)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                
+                NavigationLink(
+                    destination: ZoneSelectorView(),
+                    isActive: $navigateToDormPage
+                ) {
+                    EmptyView()
+                }
+                
                 Button("Close") {
                     // Dismiss the cart (handled by SwiftUI)
+                    presentationMode.wrappedValue.dismiss()
                 }
                 .padding()
                 .background(Color.red)
