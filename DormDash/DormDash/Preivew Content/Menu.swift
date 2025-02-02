@@ -1,3 +1,11 @@
+//
+//  Menu.swift
+//  DormDash
+//
+//  Created by Arihita Dirghangi on 2/1/25.
+//
+
+// Menu.swift
 import SwiftUI
 
 struct MenuView: View {
@@ -14,62 +22,50 @@ struct MenuView: View {
     @State private var showCart = false   // Toggle cart view
 
     var body: some View {
-        ZStack {
-            // Background Image
-            Image("background2") // Replace with your image name
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-            
-            // Content
-            VStack {
-                Text("Menu for \(diningHall)") // Display dining hall name
-                    .font(.largeTitle)
-                    .bold()
-                    .padding()
-                    .font(.custom("Verdana", size:14))
-                    .foregroundColor(Color.white)
+        VStack {
+            Text("Menu for \(diningHall)") // Display dining hall name
+                .font(.largeTitle)
+                .bold()
+                .padding()
 
-                List(menuItems, id: \.0) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.0)
-                                .font(.headline)
-                            Text(item.1)
-                                .foregroundColor(.black)
-                        }
-                        Spacer()
-                        Button(action: {
-                            cart.append(item.0) // Add to cart
-                        }) {
-                            Text("Add")
-                                .padding(.horizontal)
-                                .padding(.vertical, 5)
-                                .background(Color.orange)
-                                .foregroundColor(.white)
-                                .cornerRadius(15)
-                                .font(.custom("Verdana", size:14))
-                        }
+            List(menuItems, id: \.0) { item in
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(item.0)
+                            .font(.headline)
+                        Text(item.1)
+                            .foregroundColor(.gray)
+                    }
+                    Spacer()
+                    Button(action: {
+                        cart.append(item.0) // Add to cart
+                    }) {
+                        Text("Add")
+                            .padding(.horizontal)
+                            .padding(.vertical, 5)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(5)
                     }
                 }
+            }
 
-                // Cart Button
-                Button(action: {
-                    showCart.toggle()
-                }) {
-                    Text("View Cart (\(cart.count))")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.orange)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .padding()
-                }
+            // Cart Button
+            Button(action: {
+                showCart.toggle()
+            }) {
+                Text("View Cart (\(cart.count))")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .padding()
             }
-            .padding()
-            .sheet(isPresented: $showCart) {
-                CartView(cart: cart) // Pass the cart to CartView
-            }
+        }
+        .navigationTitle(diningHall) // Use the dining hall name in the title
+        .sheet(isPresented: $showCart) {
+            CartView(cart: cart) // Pass the cart to CartView
         }
     }
 }
@@ -98,7 +94,7 @@ struct CartView: View {
                 }
                 .padding()
                 .background(Color.green)
-                .foregroundColor(.black)
+                .foregroundColor(.white)
                 .cornerRadius(10)
                 
                 NavigationLink(
@@ -126,4 +122,3 @@ struct MenuView_Previews: PreviewProvider {
         MenuView(diningHall: "D2") // Example preview
     }
 }
-
