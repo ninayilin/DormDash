@@ -15,63 +15,55 @@ struct ContentView: View {
         ZStack {
             // Background Image
             Image("background1")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-                
-
+                    .resizable()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .ignoresSafeArea()
+            
             VStack {
                 Spacer()
 
                 VStack(spacing: 20) { // Adds spacing between elements
-
+                    
                     // Email Input Field
-                    TextField("Enter your email", text: $email)
+                    TextField("Email:", text: $email)
+                        .font(.custom("Verdana", size:14))
                         .textFieldStyle(RoundedBorderTextFieldStyle()) // Adds a border
                         .keyboardType(.emailAddress) // Email-friendly keyboard
                         .autocapitalization(.none) // Prevents auto-capitalization
                         .padding()
-                        .background(Color.white.opacity(0.8)) // Light background for visibility
+                        .background(Color(red: 209/255, green: 111/255, blue: 96/255, opacity: 0.4)) // Equivalent to #D16F60 // Light background for visibility
                         .cornerRadius(10)
                         .padding(.horizontal, 40)
-
+                    
                     // Password Input Field
-                    SecureField("Enter your password", text: $password)
+                    SecureField("Password:", text: $password)
+                        .font(.custom("Verdana", size:14))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
-                        .background(Color.white.opacity(0.8))
+                        .background(Color(red: 209/255, green: 111/255, blue: 96/255, opacity: 0.4)) // Equivalent to #D16F60
                         .cornerRadius(10)
                         .padding(.horizontal, 40)
-
+                    
                     // Login Button
                     Button(action: {
                         print("Logging in with Email: \(email) and Password: \(password)")
                     }) {
                         Text("Login")
-                            .font(.headline)
+                            .font(.custom("Verdana", size:18))
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.blue)
+                            .background(Color.orange)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .padding(.horizontal, 40)
                     }
-
-                    // Done Button
-                    Button(action: {
-                        print("Done button pressed")
-                    }) {
-                        Text("Done")
-                            .font(.headline)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .padding(.horizontal, 40)
-                    }
+                    
+                    Text("Don't have an account yet? Sign up here!")
+                        .font(.custom("Verdana", size:14))
+                        .underline()
+                        .foregroundColor(Color.white)
                 }
-                .padding(.bottom, 100) // Moves content slightly higher from the bottom edge
+                .padding(.bottom, 115) // Moves content slightly higher from the bottom edge
             }
         }
     }
