@@ -57,4 +57,3 @@ struct DiningHallsView_Previews: PreviewProvider {
         DiningHallsView()
     }
 }
-
