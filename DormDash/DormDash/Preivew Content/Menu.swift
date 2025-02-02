@@ -5,6 +5,7 @@
 //  Created by Arihita Dirghangi on 2/1/25.
 //
 
+// Menu.swift
 import SwiftUI
 
 struct MenuView: View {
@@ -64,7 +65,7 @@ struct MenuView: View {
         }
         .navigationTitle(diningHall) // Use the dining hall name in the title
         .sheet(isPresented: $showCart) {
-            CartView(cart: cart)
+            CartView(cart: cart) // Pass the cart to CartView
         }
     }
 }
@@ -73,8 +74,8 @@ struct MenuView: View {
 struct CartView: View {
     var cart: [String]
     @Environment(\.presentationMode) var presentationMode
-    @State private var navigateToDormPage = false
-    
+    @State private var navigateToDeliveryInfoPage = false  // Navigation flag
+
     var body: some View {
         NavigationView {
             VStack {
@@ -88,19 +89,19 @@ struct CartView: View {
                     .padding()
 
                 Button("Order") {
-                                    
-                    navigateToDormPage = true
-                                }
+                    // Set navigation flag to true to go to DeliveryInfoView
+                    navigateToDeliveryInfoPage = true
+                }
                 .padding()
                 .background(Color.green)
                 .foregroundColor(.white)
                 .cornerRadius(10)
                 
                 NavigationLink(
-                    destination: ZoneSelectorView(),
-                    isActive: $navigateToDormPage
+                    destination: DeliveryInfoView(),  // Navigate to DeliveryInfoView
+                    isActive: $navigateToDeliveryInfoPage
                 ) {
-                    EmptyView()
+                    EmptyView()  // Invisible link to trigger navigation
                 }
                 
                 Button("Close") {
