@@ -25,7 +25,7 @@ struct DormDashApp: App {
 
     var body: some Scene {
         WindowGroup {
-            firstPageView()
+            ContentView()
         }
         .modelContainer(sharedModelContainer)
     }
