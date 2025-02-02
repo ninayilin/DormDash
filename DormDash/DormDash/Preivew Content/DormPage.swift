@@ -1,45 +1,60 @@
-//
-//  DormPage.swift
-//  DormDash
-//
-//  Created by Aryan Palit on 2/1/25.
-//
 import SwiftUI
+
 struct ZoneSelectorView: View {
     @State private var expandedZone: String? = nil
     @State private var selectedDorm: String = ""
     @State private var roomNumber: String = ""
-    
     @State private var showRoomPrompt = false
     @State private var showConfirmationAlert = false
+    @State private var navigateToDiningHall = false // State to control navigation
 
     let zones = [
-        "Upper Quad": ["Newman", "Johnston", "Miles", "Whitehurst", "Vawter"],
-        "Lower Quad": ["Hoge", "Oshag", "Prichard", "Pedrew", "New Residence Hall", "Payne", "Campbell"],
+        "Owens and Hokie Grill": ["Newman", "Johnston", "Miles", "Whitehurst", "Vawter"],
+        "D2 and Owens": ["Hoge", "Oshag", "Prichard", "Pedrew", "New Residence Hall", "Payne", "Campbell"],
         "West End": ["AJ", "Cochraine", "Harper", "New Hall West", "Slusher"],
-        "East Side": ["Eggleston", "CID", "GLC"],
-        "Off Campus adjacent": ["Pearson", "Hillcrest"]
+        "Hokie Grill": ["Eggleston", "CID", "GLC"],
+        "Turners or Perry Place": ["Pearson", "Hillcrest"]
     ]
     
     var body: some View {
-        VStack(spacing: 20) {
-            zoneButtons
-            Spacer()
-            selectionMessage
-            doneButton
-        }
-        .padding()
-        .sheet(isPresented: $showRoomPrompt) {
-            RoomInputView(dorm: selectedDorm, roomNumber: $roomNumber) {
-                showConfirmationAlert = true
+        NavigationStack { // Embed in NavigationStack
+            ZStack {
+                // Background Image
+                Image("background2")
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
+                VStack(spacing: 20) {
+                    Text("Your Dorm is Near: ") // Title at the top
+                        .font(.title)
+                        .bold()
+                        .foregroundColor(.white)
+                        .padding(.top, 20)
+                        .font(.custom("Verdana", size:18))
+                    
+                    zoneButtons
+                    Spacer()
+                    selectionMessage
+                    doneButton
+                }
+                .padding()
+                .sheet(isPresented: $showRoomPrompt) {
+                    RoomInputView(dorm: selectedDorm, roomNumber: $roomNumber) {
+                        showConfirmationAlert = true
+                    }
+                }
+                .alert(isPresented: $showConfirmationAlert) {
+                    Alert(
+                        title: Text("Selection Confirmed"),
+                        message: Text("You selected \(selectedDorm), Room \(roomNumber)."),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
             }
-        }
-        .alert(isPresented: $showConfirmationAlert) {
-            Alert(
-                title: Text("Selection Confirmed"),
-                message: Text("You selected \(selectedDorm), Room \(roomNumber)."),
-                dismissButton: .default(Text("OK"))
-            )
+            .navigationDestination(isPresented: $navigateToDiningHall) { // Navigation destination
+                ListOfDiningHall()
+            }
         }
     }
 
@@ -70,7 +85,7 @@ struct ZoneSelectorView: View {
                     .foregroundColor(.white)
                     .padding(.trailing)
             }
-            .background(Color.blue)
+            .background(Color.orange)
             .cornerRadius(10)
         }
     }
@@ -85,7 +100,7 @@ struct ZoneSelectorView: View {
                     .foregroundColor(.black)
                     .padding()
                     .frame(width: 250, alignment: .leading)
-                    .background(Color.gray.opacity(0.2))
+                    .background(Color.white.opacity(0.8))
                     .cornerRadius(5)
             }
         }
@@ -110,7 +125,7 @@ struct ZoneSelectorView: View {
         Group {
             if !selectedDorm.isEmpty && !roomNumber.isEmpty {
                 Button(action: {
-                    print("Done button pressed for \(selectedDorm), Room \(roomNumber)")
+                    navigateToDiningHall = true // Trigger navigation
                 }) {
                     Text("Done")
                         .font(.headline)
@@ -161,7 +176,7 @@ struct RoomInputView: View {
                 .foregroundColor(.white)
                 .padding()
                 .frame(width: 200)
-                .background(Color.blue)
+                .background(Color.orange)
                 .cornerRadius(10)
                 
                 Spacer()
@@ -175,9 +190,19 @@ struct RoomInputView: View {
     }
 }
 
+// MARK: - List of Dining Hall View
+struct ListOfDiningHall: View {
+    var body: some View {
+        Text("List of Dining Halls")
+            .font(.title)
+            .padding()
+    }
+}
+
 // MARK: - Preview
 struct ZoneSelectorView_Previews: PreviewProvider {
     static var previews: some View {
         ZoneSelectorView()
     }
 }
+

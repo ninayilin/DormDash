@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct DiningHallsView: View {
+    
     let diningHalls = [
         "D2", "Turner Place", "West End", "Owens", "DXpress",
         "Au Bon Pain", "Burger '37", "Deet’s Place", "Squires Food Court"
@@ -13,23 +14,40 @@ struct DiningHallsView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(diningHalls, id: \.self) { hall in
-                        NavigationLink(destination: MenuView(diningHall: hall)) { // Pass diningHall to MenuView
-                            Text(hall)
-                                .frame(maxWidth: .infinity, minHeight: 80)
-                                .background(Color.orange.opacity(0.8))
-                                .foregroundColor(.white)
-                                .font(.headline)
-                                .cornerRadius(10)
-                                .shadow(radius: 3)
+            ZStack {
+                // Background Image
+                Image("background2")
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
+                VStack {
+                    Text("Select Dining Hall")
+                        .font(.largeTitle)
+                        .font(.custom("Verdana", size:14))
+                        .bold()
+                        .foregroundColor(.white)
+                        .padding(.bottom, 10)
+                    
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        ForEach(diningHalls, id: \.self) { hall in
+                            NavigationLink(destination: MenuView(diningHall: hall)) {
+                                Text(hall)
+                                    .font(.custom("Verdana", size:14))
+                                    .frame(maxWidth: .infinity, minHeight: 80)
+                                    .background(Color.orange)
+                                    .opacity(0.96)
+                                    .foregroundColor(.white)
+                                    .font(.headline)
+                                    .cornerRadius(14)
+                                    .shadow(radius: 3)
+                            }
                         }
                     }
+                    .padding()
                 }
-                .padding()
+                .padding(.bottom, 80)
             }
-            .navigationTitle("Select Dining Hall")
         }
     }
 }
